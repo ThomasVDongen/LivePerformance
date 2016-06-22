@@ -52,11 +52,17 @@
   <ItemGroup>
     <Compile Include="Data\Administratie.cs" />
     <Compile Include="Data\Database.cs" />
-    <Compile Include="Form1.cs">
+    <Compile Include="Forms\LoginForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Form1.Designer.cs">
-      <DependentUpon>Form1.cs</DependentUpon>
+    <Compile Include="Forms\LoginForm.Designer.cs">
+      <DependentUpon>LoginForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\MedewerkerForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\MedewerkerForm.Designer.cs">
+      <DependentUpon>MedewerkerForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Models\Artikel.cs" />
     <Compile Include="Models\Boot.cs" />
@@ -67,6 +73,12 @@
     <Compile Include="Models\Vaargebied.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="Forms\LoginForm.resx">
+      <DependentUpon>LoginForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\MedewerkerForm.resx">
+      <DependentUpon>MedewerkerForm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>

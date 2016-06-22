@@ -8,7 +8,7 @@ using Oracle.ManagedDataAccess.Client;
 
 namespace LivePerformanceThomasvanDongen.Data
 {
-    public class Database
+    public static class Database
     {
         private const string USER = "dbi323229";
         /// <summary>
@@ -22,8 +22,19 @@ namespace LivePerformanceThomasvanDongen.Data
         /// <summary>
         /// connection aangemaakt zodat deze gebruikt kan worden.
         /// </summary>
-        private readonly OracleConnection Conn;
-        public bool OpenConnection()
+        private static readonly OracleConnection Conn;
+        static Database()
+        {
+            try
+            {
+                Conn = new OracleConnection(CONNECTION_STRING);
+            }
+            catch (OracleException oEx)
+            {
+                throw oEx;
+            }
+        }
+        public static bool OpenConnection()
         {
             Console.WriteLine(Conn.State == System.Data.ConnectionState.Open
                 ? "Database Connection was already open"
@@ -45,7 +56,7 @@ namespace LivePerformanceThomasvanDongen.Data
         /// Closes the connection with the database.
         /// </summary>
         /// <returns>A bool wether the connection was successfully closed</returns>
-        public bool CloseConnection()
+        public static bool CloseConnection()
         {
             Console.WriteLine(Conn.State == System.Data.ConnectionState.Closed
                 ? "Database Connection was already closed"
@@ -65,7 +76,7 @@ namespace LivePerformanceThomasvanDongen.Data
         /// </summary>
         /// <param name="sqlC"></param>
         /// <returns></returns>
-        private OracleDataReader ReadData(OracleCommand sqlC)
+        private static OracleDataReader ReadData(OracleCommand sqlC)
         {
             if (!OpenConnection())
                 return null;
@@ -84,5 +95,39 @@ namespace LivePerformanceThomasvanDongen.Data
                 return null;
             }
         }
+
+        public static string Login(string login, string password)
+        {
+            string functie = "Geen medewerker gevonden";
+            OracleCommand cmd =
+                new OracleCommand("SELECT Functie FROM MEDEWERKER WHERE NAAM = :naam AND wachtwoord = :wachtwoord");
+            cmd.Parameters
+                .Add("naam", OracleDbType.Varchar2).Value = login;
+
+            cmd.Parameters
+                .Add("wachtwoord", OracleDbType.Varchar2).Value = password;
+
+            try
+            {
+                OracleDataReader oraReader = ReadData(cmd);
+
+                if (oraReader == null)
+                    return functie;
+                while (oraReader.Read())
+                {
+                    functie = Convert.ToString(oraReader["FUNCTIE"]);
+                }
+
+
+            }
+            catch (InvalidOperationException ex)
+            {
+                functie = "Er was een error";
+                return functie;
+            }
+            return functie;
+
+        }
+
     }
 }

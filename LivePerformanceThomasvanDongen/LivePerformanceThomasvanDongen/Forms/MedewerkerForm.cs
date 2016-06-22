@@ -8,13 +8,18 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace LivePerformanceThomasvanDongen
+namespace LivePerformanceThomasvanDongen.Forms
 {
-    public partial class Form1 : Form
+    public partial class MedewerkerForm : Form
     {
-        public Form1()
+        public MedewerkerForm()
         {
             InitializeComponent();
+        }
+
+        private void btnNewVerhuurder_Click(object sender, EventArgs e)
+        {
+            
         }
     }
 }
