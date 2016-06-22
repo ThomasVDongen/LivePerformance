@@ -4,6 +4,7 @@ using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using LivePerformanceThomasvanDongen.Models;
 using Oracle.ManagedDataAccess.Client;
 
 namespace LivePerformanceThomasvanDongen.Data
@@ -122,11 +123,45 @@ namespace LivePerformanceThomasvanDongen.Data
             }
             catch (InvalidOperationException ex)
             {
+                CloseConnection();
                 functie = "Er was een error";
                 return functie;
             }
+            CloseConnection();
             return functie;
 
+        }
+
+        public static bool NieuweHuurder(Huurder huurder)
+        {
+            string query = "INSERT INTO HUURDER(NAAM, EMAIL) VALUES(:naam, :email)";
+
+            OracleCommand insert = new OracleCommand(query, Conn);
+            insert.Parameters.Add(new OracleParameter("naam", huurder.Naam));
+            insert.Parameters.Add(new OracleParameter("email", huurder.Email));
+            OracleCommand commit = new OracleCommand("commit", Conn);
+
+
+            try
+            {
+                if (!OpenConnection())
+                    return false;
+                insert.ExecuteNonQuery();
+                commit.ExecuteNonQuery();
+            }
+            catch (OracleException)
+            {
+                return false;
+            }
+            catch (InvalidOperationException o)
+            {
+                return false;
+            }
+            finally
+            {
+                CloseConnection();
+            }
+            return true;
         }
 
     }

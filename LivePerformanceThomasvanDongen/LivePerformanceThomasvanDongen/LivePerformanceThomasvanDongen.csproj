@@ -64,6 +64,18 @@
     <Compile Include="Forms\MedewerkerForm.Designer.cs">
       <DependentUpon>MedewerkerForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="Forms\NieuwContract.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\NieuwContract.Designer.cs">
+      <DependentUpon>NieuwContract.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\NieuweHuurderForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\NieuweHuurderForm.Designer.cs">
+      <DependentUpon>NieuweHuurderForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="Models\Artikel.cs" />
     <Compile Include="Models\Boot.cs" />
     <Compile Include="Models\Huurcontract.cs" />
@@ -78,6 +90,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\MedewerkerForm.resx">
       <DependentUpon>MedewerkerForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\NieuwContract.resx">
+      <DependentUpon>NieuwContract.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\NieuweHuurderForm.resx">
+      <DependentUpon>NieuweHuurderForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>

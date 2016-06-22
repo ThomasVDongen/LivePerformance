@@ -28,19 +28,19 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.btnNewVerhuurder = new System.Windows.Forms.Button();
+            this.btnNewHuurder = new System.Windows.Forms.Button();
             this.btnNewContract = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
-            // btnNewVerhuurder
+            // btnNewHuurder
             // 
-            this.btnNewVerhuurder.Location = new System.Drawing.Point(12, 12);
-            this.btnNewVerhuurder.Name = "btnNewVerhuurder";
-            this.btnNewVerhuurder.Size = new System.Drawing.Size(158, 148);
-            this.btnNewVerhuurder.TabIndex = 0;
-            this.btnNewVerhuurder.Text = "Nieuwe verhuurder";
-            this.btnNewVerhuurder.UseVisualStyleBackColor = true;
-            this.btnNewVerhuurder.Click += new System.EventHandler(this.btnNewVerhuurder_Click);
+            this.btnNewHuurder.Location = new System.Drawing.Point(12, 12);
+            this.btnNewHuurder.Name = "btnNewHuurder";
+            this.btnNewHuurder.Size = new System.Drawing.Size(158, 148);
+            this.btnNewHuurder.TabIndex = 0;
+            this.btnNewHuurder.Text = "Nieuwe huurder";
+            this.btnNewHuurder.UseVisualStyleBackColor = true;
+            this.btnNewHuurder.Click += new System.EventHandler(this.btnNewVerhuurder_Click);
             // 
             // btnNewContract
             // 
@@ -50,6 +50,7 @@
             this.btnNewContract.TabIndex = 1;
             this.btnNewContract.Text = "Nieuw huurcontract";
             this.btnNewContract.UseVisualStyleBackColor = true;
+            this.btnNewContract.Click += new System.EventHandler(this.btnNewContract_Click);
             // 
             // MedewerkerForm
             // 
@@ -57,7 +58,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(605, 450);
             this.Controls.Add(this.btnNewContract);
-            this.Controls.Add(this.btnNewVerhuurder);
+            this.Controls.Add(this.btnNewHuurder);
             this.Name = "MedewerkerForm";
             this.Text = "MedewerkerForm";
             this.ResumeLayout(false);
@@ -66,7 +67,7 @@
 
         #endregion
 
-        private System.Windows.Forms.Button btnNewVerhuurder;
+        private System.Windows.Forms.Button btnNewHuurder;
         private System.Windows.Forms.Button btnNewContract;
     }
 }

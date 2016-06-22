@@ -26,5 +26,15 @@ namespace LivePerformanceThomasvanDongen.Models
             Naam = naam;
             Email = email;
         }
+        /// <summary>
+        /// constructor voor het aanmaken van een verhuurder het id komt er zelf bij door een trigger in de database
+        /// </summary>
+        /// <param name="naam"></param>
+        /// <param name="email"></param>
+        public Huurder(string naam, string email)
+        {
+            Naam = naam;
+            Email = email;
+        }
     }
 }
