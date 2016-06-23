@@ -97,7 +97,12 @@ namespace LivePerformanceThomasvanDongen.Data
                 return null;
             }
         }
-
+        /// <summary>
+        /// login met login en wachtwoord
+        /// </summary>
+        /// <param name="login"></param>
+        /// <param name="password"></param>
+        /// <returns></returns>
         public static string Login(string login, string password)
         {
             string functie = "Geen medewerker gevonden";
@@ -132,7 +137,11 @@ namespace LivePerformanceThomasvanDongen.Data
             return functie;
 
         }
-
+        /// <summary>
+        /// huurder toevoegen aan de database
+        /// </summary>
+        /// <param name="huurder"></param>
+        /// <returns></returns>
         public static bool NieuweHuurder(Huurder huurder)
         {
             string query = "INSERT INTO HUURDER(NAAM, EMAIL) VALUES(:naam, :email)";
@@ -164,7 +173,11 @@ namespace LivePerformanceThomasvanDongen.Data
             }
             return true;
         }
-
+        /// <summary>
+        /// alle artikelen ophalen als er een null wordt meegegeven dan alles anders op huurcontract_id
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         public static List<Artikel> HaalArtikelenOp(int? id)
         {
             string query;
@@ -207,7 +220,10 @@ namespace LivePerformanceThomasvanDongen.Data
             }
 
         }
-
+        /// <summary>
+        /// alle huurders ophalen
+        /// </summary>
+        /// <returns></returns>
         public static List<Huurder> HaalHuurdersOp()
         {
             string query = "Select * from Huurder";
@@ -238,7 +254,11 @@ namespace LivePerformanceThomasvanDongen.Data
                 return huurders;
             }
         }
-
+        /// <summary>
+        /// alle boten ophalen asl id null is dan alle anders op huurcontract_id
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         public static List<Boot> HaalBotenOp(int? id)
         {
             string query;
@@ -285,7 +305,11 @@ namespace LivePerformanceThomasvanDongen.Data
             }
 
         }
-
+        /// <summary>
+        /// alle vaargebieden ophalen per type van boot
+        /// </summary>
+        /// <param name="type"></param>
+        /// <returns></returns>
         public static List<Vaargebied> HaalVaargebiedenOp(string type)
         {
             string query = "SELECT * FROM VAARGEBIED V JOIN VAARGEBIED_TYPE VT ON V.NAAM = VT.VAARGEBIED_NAAM WHERE VT.TYPE_NAAM = :type";
@@ -315,7 +339,11 @@ namespace LivePerformanceThomasvanDongen.Data
             }
             return vaargebieden;
         }
-
+        /// <summary>
+        /// prijs per dag ophalen per type
+        /// </summary>
+        /// <param name="type"></param>
+        /// <returns></returns>
         public static double HaalPrijsperdagOp(string type)
         {
             string query = "Select prijsperdag from Type where NAAM = :type";
@@ -341,7 +369,11 @@ namespace LivePerformanceThomasvanDongen.Data
             }
 
         }
-
+        /// <summary>
+        /// contract aanmaken en toevoegen aan de database plus koppeltabellen in vullen
+        /// </summary>
+        /// <param name="contract"></param>
+        /// <returns></returns>
         public static bool NieuwContract(Huurcontract contract)
         {
             #region queries
@@ -423,7 +455,10 @@ namespace LivePerformanceThomasvanDongen.Data
             }
             return true;
         }
-
+        /// <summary>
+        /// alle contracten ophalen
+        /// </summary>
+        /// <returns></returns>
         public static List<Huurcontract> LaadAlleContracten()
         {
             string query = "Select * from HUURCONTRACT";
@@ -459,7 +494,11 @@ namespace LivePerformanceThomasvanDongen.Data
                 return contracten;
             }
         }
-
+        /// <summary>
+        /// een huurder ophalen op email
+        /// </summary>
+        /// <param name="email"></param>
+        /// <returns></returns>
         public static Huurder HaalHuurderOp(string email)
         {
             string query = "Select * from Huurder H where Email = :naam";
@@ -490,6 +529,11 @@ namespace LivePerformanceThomasvanDongen.Data
                 return huurder;
             }
         }
+        /// <summary>
+        /// huurder ophalen op id
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         public static Huurder HaalHuurderOp(int id)
         {
             string query = "Select * from Huurder H Join Huurcontract_Huurder HH on H.ID = HH.HUURDER_ID where HH.HUURCONTRACT_ID =" + id;
