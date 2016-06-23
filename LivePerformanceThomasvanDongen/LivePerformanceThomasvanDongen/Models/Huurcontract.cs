@@ -42,7 +42,7 @@ namespace LivePerformanceThomasvanDongen.Models
             int aantalBoten = Boten.Count;
             int aantaArtikelen = Artikelen.Count;
             return
-                $"Contract van: {Huurder.Naam} Startdatum: {StartDatum.ToShortDateString()} Einddatum: {EindDatum.ToShortDateString()} aantal boten: {aantalBoten} aantal artikelen: {aantaArtikelen}";
+                $"Contract van: {Huurder.Naam} Startdatum: {StartDatum.ToShortDateString()} Einddatum: {EindDatum.ToShortDateString()} aantal boten: {aantalBoten} aantal artikelen: {aantaArtikelen} Bedrag: €{Bedrag}";
         }
 
         public int Dagen()
