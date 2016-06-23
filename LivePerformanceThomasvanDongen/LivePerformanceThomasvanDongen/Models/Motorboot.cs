@@ -28,7 +28,12 @@ namespace LivePerformanceThomasvanDongen.Models
 
         public override string ToString()
         {
-            return base.ToString() + $" Tank inhoud: {Tank}L";
+            return base.ToString() + $" Tank inhoud: {Tank}L Actieradius:{ActieRadius()}";
+        }
+
+        public int ActieRadius()
+        {
+            return Tank*15;
         }
     }
 }

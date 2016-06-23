@@ -16,6 +16,8 @@ namespace LivePerformanceThomasvanDongen.Forms
     {
         private readonly List<Boot> _geselecteerdeBoten = new List<Boot>();
         private readonly List<Artikel> _geselecteerdeArtikelen = new List<Artikel>();
+        private int dagen;
+        
 
         public NieuwContract()
         {
@@ -29,7 +31,7 @@ namespace LivePerformanceThomasvanDongen.Forms
             {
                 lbArtikelen.Items.Add(artikel);
             }
-            foreach (Huurder huurder in Administratie.HaalHuurdersOp(null))
+            foreach (Huurder huurder in Administratie.HaalHuurdersOp())
             {
                 cbHuurder.Items.Add(huurder);
             }
@@ -80,13 +82,35 @@ namespace LivePerformanceThomasvanDongen.Forms
             else
             {
                 if (Administratie.NieuwContract(new Huurcontract(dtpStartDatum.Value, dtpEindDatum.Value,
-                        (Huurder)cbHuurder.SelectedItem, _geselecteerdeArtikelen, _geselecteerdeBoten)))
+                        (Huurder)cbHuurder.SelectedItem, _geselecteerdeArtikelen, _geselecteerdeBoten, Totaal())))
                 {
                     MessageBox.Show("Contract toegevoegd");
                     Close();
                 }
 
             }
+        }
+
+       
+        public double Totaal()
+        {
+            double totaal = 0;
+            dagen = Convert.ToInt32((dtpEindDatum.Value - dtpStartDatum.Value).TotalDays);
+            foreach (Artikel artikel in _geselecteerdeArtikelen)
+            {
+                totaal = totaal + artikel.Prijsperdag;
+            }
+            foreach (Boot boot in _geselecteerdeBoten)
+            {
+                totaal = totaal + boot.Prijsperdag;
+            }
+            return totaal*dagen;
+
+        }
+
+        private void btnBereken_Click(object sender, EventArgs e)
+        {
+            lblTotaal.Text = Totaal().ToString("N2");
         }
     }
 }

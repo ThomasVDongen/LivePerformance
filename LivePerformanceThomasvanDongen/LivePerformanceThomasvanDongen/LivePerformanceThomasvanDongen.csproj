@@ -52,6 +52,18 @@
   <ItemGroup>
     <Compile Include="Data\Administratie.cs" />
     <Compile Include="Data\Database.cs" />
+    <Compile Include="Forms\BedragForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\BedragForm.Designer.cs">
+      <DependentUpon>BedragForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\Contracten.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\Contracten.Designer.cs">
+      <DependentUpon>Contracten.cs</DependentUpon>
+    </Compile>
     <Compile Include="Forms\LoginForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -85,6 +97,12 @@
     <Compile Include="Models\Vaargebied.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="Forms\BedragForm.resx">
+      <DependentUpon>BedragForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\Contracten.resx">
+      <DependentUpon>Contracten.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Forms\LoginForm.resx">
       <DependentUpon>LoginForm.cs</DependentUpon>
     </EmbeddedResource>

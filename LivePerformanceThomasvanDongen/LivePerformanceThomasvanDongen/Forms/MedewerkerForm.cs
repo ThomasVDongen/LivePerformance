@@ -30,5 +30,19 @@ namespace LivePerformanceThomasvanDongen.Forms
             ncForm.Closed += (s, args) => Show();
             ncForm.Show();
         }
+
+        private void btnContracten_Click(object sender, EventArgs e)
+        {
+            Contracten contracten = new Contracten();
+            contracten.Closed += (s, args) => Show();
+            contracten.Show();
+        }
+
+        private void btnBedrag_Click(object sender, EventArgs e)
+        {
+            BedragForm bedrag = new BedragForm();
+            bedrag.Closed += (s, args) => Show();
+            bedrag.Show();
+        }
     }
 }

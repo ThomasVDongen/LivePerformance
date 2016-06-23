@@ -36,6 +36,13 @@ namespace LivePerformanceThomasvanDongen.Models
             Naam = naam;
             Email = email;
         }
+        /// <summary>
+        /// constructor zonder variabelen voor in de database classe
+        /// </summary>
+        public Huurder()
+        {
+            
+        }
 
         public override string ToString()
         {

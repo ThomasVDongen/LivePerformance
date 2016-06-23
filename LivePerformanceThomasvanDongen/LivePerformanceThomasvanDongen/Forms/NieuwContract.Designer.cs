@@ -41,6 +41,9 @@
             this.label4 = new System.Windows.Forms.Label();
             this.label5 = new System.Windows.Forms.Label();
             this.cbHuurder = new System.Windows.Forms.ComboBox();
+            this.lblTotaal = new System.Windows.Forms.Label();
+            this.label6 = new System.Windows.Forms.Label();
+            this.btnBereken = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // label1
@@ -158,11 +161,41 @@
             this.cbHuurder.Size = new System.Drawing.Size(852, 24);
             this.cbHuurder.TabIndex = 14;
             // 
+            // lblTotaal
+            // 
+            this.lblTotaal.AutoSize = true;
+            this.lblTotaal.Location = new System.Drawing.Point(938, 558);
+            this.lblTotaal.Name = "lblTotaal";
+            this.lblTotaal.Size = new System.Drawing.Size(0, 17);
+            this.lblTotaal.TabIndex = 15;
+            // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.Location = new System.Drawing.Point(874, 558);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(58, 17);
+            this.label6.TabIndex = 16;
+            this.label6.Text = "Bedrag:";
+            // 
+            // btnBereken
+            // 
+            this.btnBereken.Location = new System.Drawing.Point(889, 515);
+            this.btnBereken.Name = "btnBereken";
+            this.btnBereken.Size = new System.Drawing.Size(129, 30);
+            this.btnBereken.TabIndex = 17;
+            this.btnBereken.Text = "Bereken totaal:";
+            this.btnBereken.UseVisualStyleBackColor = true;
+            this.btnBereken.Click += new System.EventHandler(this.btnBereken_Click);
+            // 
             // NieuwContract
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1149, 605);
+            this.ClientSize = new System.Drawing.Size(1132, 596);
+            this.Controls.Add(this.btnBereken);
+            this.Controls.Add(this.label6);
+            this.Controls.Add(this.lblTotaal);
             this.Controls.Add(this.cbHuurder);
             this.Controls.Add(this.label5);
             this.Controls.Add(this.label4);
@@ -197,5 +230,8 @@
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.ComboBox cbHuurder;
+        private System.Windows.Forms.Label lblTotaal;
+        private System.Windows.Forms.Label label6;
+        private System.Windows.Forms.Button btnBereken;
     }
 }

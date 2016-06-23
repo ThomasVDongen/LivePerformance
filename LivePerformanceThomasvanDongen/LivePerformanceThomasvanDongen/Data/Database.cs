@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Diagnostics.Contracts;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -101,7 +102,7 @@ namespace LivePerformanceThomasvanDongen.Data
         {
             string functie = "Geen medewerker gevonden";
             OracleCommand cmd =
-                new OracleCommand("SELECT Functie FROM MEDEWERKER WHERE NAAM = :naam AND wachtwoord = :wachtwoord");
+                new OracleCommand("SELECT * FROM MEDEWERKER WHERE NAAM = :naam AND wachtwoord = :wachtwoord");
             cmd.Parameters
                 .Add("naam", OracleDbType.Varchar2).Value = login;
 
@@ -173,8 +174,8 @@ namespace LivePerformanceThomasvanDongen.Data
             }
             else
             {
-                query = "Select * from Artikel A" +
-                        "Join Huurcontract_Artikel H on H.Artikel_Naam = A.Naam" +
+                query = "Select * from Artikel A " +
+                        "Join Huurcontract_Artikel H on H.Artikel_Naam = A.Naam " +
                         "Where H.HUURCONTRACT_ID = " + id;
             }
 
@@ -197,7 +198,6 @@ namespace LivePerformanceThomasvanDongen.Data
                         );
                     artikelen.Add(artikel);
                 }
-                CloseConnection();
                 return artikelen;
             }
             catch (OracleException)
@@ -208,18 +208,9 @@ namespace LivePerformanceThomasvanDongen.Data
 
         }
 
-        public static List<Huurder> HaalHuurdersOp(int? id)
+        public static List<Huurder> HaalHuurdersOp()
         {
-            string query;
-            if (id == null)
-            {
-                query = "Select * from Huurder";
-            }
-            else
-            {
-                query = "Select * from Huurder H Join Huurcontract_Huurder HH on H.ID = HH.HUURDER_ID where HH.HUURCONTRACT_ID =" + id;
-            }
-
+            string query = "Select * from Huurder";
             OracleCommand cmd = new OracleCommand(query);
             List<Huurder> huurders = new List<Huurder>();
 
@@ -239,7 +230,6 @@ namespace LivePerformanceThomasvanDongen.Data
                         );
                     huurders.Add(huurder);
                 }
-                CloseConnection();
                 return huurders;
             }
             catch (OracleException)
@@ -286,7 +276,6 @@ namespace LivePerformanceThomasvanDongen.Data
                     }
 
                 }
-                CloseConnection();
                 return boten;
             }
             catch (OracleException)
@@ -299,7 +288,7 @@ namespace LivePerformanceThomasvanDongen.Data
 
         public static List<Vaargebied> HaalVaargebiedenOp(string type)
         {
-            string query = "SELECT * FROM VAARGEBIED V JOIN VAARGEBIED_TYPE VT ON V.NAAM = VT.VAARGEBIED_NAAM WHERE VT.TYPE_NAAM = :type" ;
+            string query = "SELECT * FROM VAARGEBIED V JOIN VAARGEBIED_TYPE VT ON V.NAAM = VT.VAARGEBIED_NAAM WHERE VT.TYPE_NAAM = :type";
             OracleCommand cmd = new OracleCommand(query);
             cmd.Parameters.Add("type", type);
             List<Vaargebied> vaargebieden = new List<Vaargebied>();
@@ -358,8 +347,8 @@ namespace LivePerformanceThomasvanDongen.Data
             #region queries
             //aanmaken van alle queries die ik nodig heb.
             int huurcontractId = 0;
-            string querycontract = "INSERT INTO HUURCONTRACT(STARTDATUM, EINDDATUM)VALUES(:startdatum, :einddatum)";
-            string getnewID = "SELECT ID FROM HUURCONTRACT WHERE rowid=(select max(rowid) from HUURCONTRACT)";
+            string querycontract = "INSERT INTO HUURCONTRACT(STARTDATUM, EINDDATUM, BEDRAG)VALUES(:startdatum, :einddatum, :bedrag)";
+            string getnewID = "SELECT ID FROM HUURCONTRACT WHERE bedrag = :bedrag";
             string queryhuurder =
                 "INSERT INTO HUURCONTRACT_HUURDER(HUURCONTRACT_ID, HUURDER_ID)VALUES(:huurcontractid,:huurderid)";
             string queryBoot =
@@ -369,13 +358,13 @@ namespace LivePerformanceThomasvanDongen.Data
             //aanmaken van alle commands die ik nodig heb
             #region commands en paramaters 1
             OracleCommand contractcmd = new OracleCommand(querycontract, Conn);
-            contractcmd.Parameters.Add("startdatum", contract.StartDatum.Date);
-            contractcmd.Parameters.Add("einddatum", contract.EindDatum.Date);
+            contractcmd.Parameters.Add("startdatum", contract.StartDatum);
+            contractcmd.Parameters.Add("einddatum", contract.EindDatum);
+            contractcmd.Parameters.Add("bedrag", contract.Bedrag);
             OracleCommand commit = new OracleCommand("commit", Conn);
             OracleCommand getCommand = new OracleCommand(getnewID);
-            getCommand.Parameters.Add("startdatum", contract.StartDatum.Date);
-            getCommand.Parameters.Add("einddatum", contract.EindDatum.Date);
-#endregion
+            getCommand.Parameters.Add("bedrag", contract.Bedrag);
+            #endregion
 
             try
             {
@@ -397,32 +386,34 @@ namespace LivePerformanceThomasvanDongen.Data
 
                 OracleCommand huurdercmd = new OracleCommand(queryhuurder, Conn);
                 huurdercmd.Parameters.Add("huurcontractid", huurcontractId);
-                huurdercmd.Parameters.Add("huurderid", contract.Huurder.ID);
+                Huurder huurder = HaalHuurderOp(contract.Huurder.Email);
+                huurdercmd.Parameters.Add("huurderid", huurder.ID);
                 huurdercmd.ExecuteNonQuery();
-                OracleCommand bootcmd = new OracleCommand(queryBoot, Conn);
-                bootcmd.Parameters.Add("huurcontractid", huurcontractId);
-
-                #endregion
+               #endregion
 
                 foreach (Boot boot in contract.Boten)
                 {
+                    OracleCommand bootcmd = new OracleCommand(queryBoot, Conn);
+                    bootcmd.Parameters.Add("huurcontractid", huurcontractId);
                     bootcmd.Parameters.Add("bootnaam", boot.Naam);
                     bootcmd.ExecuteNonQuery();
                 }
                 if (contract.Artikelen.Count != 0)
                 {
-                    OracleCommand artikelcmd = new OracleCommand(queryArtikel, Conn);
-                    artikelcmd.Parameters.Add("huurcontractid", huurcontractId);
+                   
                     foreach (Artikel artikel in contract.Artikelen)
                     {
+                        OracleCommand artikelcmd = new OracleCommand(queryArtikel, Conn);
+                        artikelcmd.Parameters.Add("huurcontractid", huurcontractId);
                         artikelcmd.Parameters.Add("artikelnaam", artikel.Naam);
+                        artikelcmd.ExecuteNonQuery();
                     }
                     commit.ExecuteNonQuery();
                 }
-                
+
 
             }
-            catch (OracleException)
+            catch (OracleException exception)
             {
                 return false;
             }
@@ -433,7 +424,100 @@ namespace LivePerformanceThomasvanDongen.Data
             return true;
         }
 
+        public static List<Huurcontract> LaadAlleContracten()
+        {
+            string query = "Select * from HUURCONTRACT";
+            OracleCommand cmd = new OracleCommand(query);
+            List<Huurcontract> contracten = new List<Huurcontract>();
 
+            try
+            {
+                OracleDataReader reader = ReadData(cmd);
+                if (reader == null)
+                    return contracten;
+                while (reader.Read())
+                {
+                    int id = Convert.ToInt32(reader["ID"]);
+                    DateTime startdatum = Convert.ToDateTime(reader["StartDatum"]);
+                    DateTime einddatum = Convert.ToDateTime(reader["Einddatum"]);
+                    Huurder huurder = HaalHuurderOp(id);
+                    List<Artikel> artikelen = HaalArtikelenOp(id);
+                    List<Boot> boten = HaalBotenOp(id);
+                    double bedrag = Convert.ToDouble(reader["BEDRAG"]);
+
+                    Huurcontract contract = new Huurcontract(id, startdatum, einddatum, huurder, artikelen, boten, bedrag);
+                    contracten.Add(contract);
+
+                }
+                CloseConnection();
+                return contracten;
+                
+            }
+            catch (OracleException)
+            {
+                CloseConnection();
+                return contracten;
+            }
+        }
+
+        public static Huurder HaalHuurderOp(string email)
+        {
+            string query = "Select * from Huurder H where Email = :naam";
+
+            OracleCommand cmd = new OracleCommand(query);
+            cmd.Parameters.Add("naam", email);
+            Huurder huurder = new Huurder();
+            try
+            {
+                OracleDataReader reader = ReadData(cmd);
+
+                if (reader == null)
+                    return null;
+                while (reader.Read())
+                {
+                    huurder = new Huurder
+                       (
+                       Convert.ToInt32(reader["ID"]),
+                       Convert.ToString(reader["Naam"]),
+                       Convert.ToString(reader["Email"])
+                       );
+                }
+                return huurder;
+            }
+            catch (OracleException)
+            {
+                CloseConnection();
+                return huurder;
+            }
+        }
+        public static Huurder HaalHuurderOp(int id)
+        {
+            string query = "Select * from Huurder H Join Huurcontract_Huurder HH on H.ID = HH.HUURDER_ID where HH.HUURCONTRACT_ID =" + id;
+            OracleCommand cmd = new OracleCommand(query);
+            Huurder huurder = new Huurder();
+            try
+            {
+                OracleDataReader reader = ReadData(cmd);
+
+                if (reader == null)
+                    return null;
+                while (reader.Read())
+                {
+                     huurder = new Huurder
+                        (
+                        Convert.ToInt32(reader["ID"]),
+                        Convert.ToString(reader["Naam"]),
+                        Convert.ToString(reader["Email"])
+                        );
+                    }
+                return huurder;
+            }
+            catch (OracleException)
+            {
+                CloseConnection();
+                return huurder;
+            }
+        }
         /// <summary>
         /// Funcite die van een int een bool maakt omdat je geen bools in de database kunt zetten doe ik het met 1 en 0
         /// </summary>
