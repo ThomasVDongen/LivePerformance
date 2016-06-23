@@ -18,5 +18,25 @@ namespace LivePerformanceThomasvanDongen.Data
         {
             return Database.NieuweHuurder(huurder);
         }
+
+        public static List<Artikel> HaalArtikelenOp(int? id)
+        {
+            return Database.HaalArtikelenOp(id);
+        }
+
+        public static List<Huurder> HaalHuurdersOp(int? id)
+        {
+            return Database.HaalHuurdersOp(id);
+        }
+
+        public static List<Boot> HaalBotenOp(int? id)
+        {
+            return Database.HaalBotenOp(id);
+        }
+
+        public static bool NieuwContract(Huurcontract huurcontract)
+        {
+            return Database.NieuwContract(huurcontract);
+        }
     }
 }

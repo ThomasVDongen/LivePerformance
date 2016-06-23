@@ -11,21 +11,24 @@ namespace LivePerformanceThomasvanDongen.Models
         /// <summary>
         /// properties
         /// </summary>
-        public double Tank { get; set; }
-        /// <summary>
-        /// constructor met de base class
-        /// </summary>
-        /// <param name="naam"></param>
-        /// <param name="prijsperdag"></param>
-        /// <param name="sluisgeld"></param>
-        /// <param name="tank"></param>
-        public Motorboot(string naam, double prijsperdag, double sluisgeld, double tank) : base(naam, prijsperdag, sluisgeld)
+        public int Tank { get; set; }
+       /// <summary>
+       /// constructor met de base class
+       /// </summary>
+       /// <param name="naam"></param>
+       /// <param name="prijsperdag"></param>
+       /// <param name="sluisgeld"></param>
+       /// <param name="merk"></param>
+       /// <param name="vaargebieden"></param>
+       /// <param name="tank"></param>
+        public Motorboot(string naam, double prijsperdag, bool sluisgeld, string merk, List<Vaargebied> vaargebieden, int tank) : base(naam, prijsperdag, sluisgeld, merk, vaargebieden)
         {
             Tank = tank;
         }
 
-        
-
-
+        public override string ToString()
+        {
+            return base.ToString() + $" Tank inhoud: {Tank}L";
+        }
     }
 }

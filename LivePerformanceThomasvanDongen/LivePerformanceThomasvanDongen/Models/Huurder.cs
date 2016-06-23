@@ -36,5 +36,10 @@ namespace LivePerformanceThomasvanDongen.Models
             Naam = naam;
             Email = email;
         }
+
+        public override string ToString()
+        {
+            return $"Naam: {Naam}";
+        }
     }
 }

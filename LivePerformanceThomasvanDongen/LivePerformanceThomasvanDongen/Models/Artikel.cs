@@ -23,5 +23,10 @@ namespace LivePerformanceThomasvanDongen.Models
             Naam = naam;
             Prijsperdag = prijsperdag;
         }
+
+        public override string ToString()
+        {
+            return $"Naam: {Naam} Prijs per dag: {Prijsperdag}";
+        }
     }
 }

@@ -8,9 +8,9 @@ namespace LivePerformanceThomasvanDongen.Models
 {
     public class SpierkrachtaangedrevenBoot :Boot
     {
-        public SpierkrachtaangedrevenBoot(string naam, double prijsperdag, double sluisgeld) : base(naam, prijsperdag, sluisgeld)
+        public SpierkrachtaangedrevenBoot(string naam, double prijsperdag, bool sluisgeld, string merk, List<Vaargebied> vaargebieden) : base(naam, prijsperdag, sluisgeld, merk, vaargebieden)
         {
-
         }
+        
     }
 }
